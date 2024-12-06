@@ -289,9 +289,14 @@ Note the two `I2cSerialBusV2` resources for the two accelerometers, and the
 `LTSM` method that updates the HID switch state and generates 'standard'
 tablet-mode and laptop-mode events.
 
-The `GMTR` method looks interesting too (it appears to always return `PARB`
-in this case). I wonder if that's calibration data, or maybe tuning constants
-for mode detection?
+The `GMTR` method looks interesting too - it returns 24 bytes of data (always
+`PARB` on my machine). At a guess, it looks to be two 3x3 matrices of signed
+8-bit values (almost certainly orientations of the two sensors?), followed by
+6 bytes - either a 3-element vector of 16-bit values applying to both
+sensors, or two 3-element vectors of 8-bit values, one for each sensor. The
+orientation matrices don't look immediately useful to us, and the purpose of
+the following data isn't clear - it doesn't make sense as zero-offset
+calibration values.
 
 ```asl
 Device (_SB)
