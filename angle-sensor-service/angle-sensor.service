@@ -1,0 +1,9 @@
+[Unit]
+Description=Chuwi MiniBook rotation daemon
+
+[Service]
+EnvironmentFile=/etc/sysconfig/angle-sensor
+ExecStart=/usr/local/sbin/angle-sensor --interval $INTERVAL \
+    --threshold $THRESHOLD --hysteresis $HYSTERESIS \
+    --tilt-threshold $TILT_THRESHOLD --jerk-threshold $JERK_THRESHOLD \
+    $COMMAND

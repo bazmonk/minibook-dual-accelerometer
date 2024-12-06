@@ -1,0 +1,15 @@
+# The dual accelerometers on the MiniBook X have the same modalias, so hwdb
+# can't tell them apart. Differentiate them using the devpath and set
+# ACCEL_LOCATION as appropriate.
+
+SUBSYSTEM=="iio", KERNEL=="iio*", SUBSYSTEMS=="i2c", \
+        DEVPATH=="*/i2c-MDA6655:00-mxc4005.display/*", \
+        ENV{ACCEL_LOCATION}="display", \
+        ENV{ACCEL_MOUNT_MATRIX}="0,-1,0;1,0,0;0,0,1", \
+        ENV{SYSTEMD_WANTS}="angle-sensor.service"
+
+SUBSYSTEM=="iio", KERNEL=="iio*", SUBSYSTEMS=="i2c", \
+        DEVPATH=="*/i2c-MDA6655:00-mxc4005.base/*", \
+        ENV{ACCEL_LOCATION}="base", \
+        ENV{ACCEL_MOUNT_MATRIX}="0,-1,0;1,0,0;0,0,1", \
+        ENV{SYSTEMD_WANTS}="angle-sensor.service"

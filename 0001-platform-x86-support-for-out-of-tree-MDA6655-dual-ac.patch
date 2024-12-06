@@ -1,0 +1,80 @@
+From 568846f1e714ab060ba2faf088c100dbec3e1854 Mon Sep 17 00:00:00 2001
+From: Richard Halkyard <rhalkyard@gmail.com>
+Date: Wed, 4 Dec 2024 16:58:33 -0600
+Subject: [PATCH] platform/x86: support for out-of-tree MDA6655 dual
+ accelerometer driver
+
+The Chuwi MiniBook X (and possibly other low-cost 2-in-1 laptops) has
+dual accelerometers for measuring its lid-opening angle. This appears as
+ACPI device 'MDA6655', and is basically two MXC6655 accelerometers in a
+trench coat, with an ACPI method ('LTSM') to trigger the tablet mode
+switch.
+
+While the ACPI method is undocumented, it appears to be relatively safe
+to call, and the 'VGBS' method appears to be trustworthy on this
+machine. Disassembling the DSDT suggests that the 'LTSM' method does
+nothing but lock the keyboard and trackpad, and trigger a tablet-mode
+switch HID event.
+
+Since we instantiate two client devices (the accelerometers) from a
+single ACPI device, it is necessary to add the device ID to the ignore
+list in drivers/acpi/scan.c:acpi_device_enumeration_by_parent. We also
+remove the (now redundant) ID from the match list in
+drivers/iio/accel/mxc4005.c.
+
+This is a stopgap patch to enable out-of-tree development of a driver
+exposing both accelerometers and providing a method to poke at the
+virtual tablet switch from userspace. Once the driver and its supporting
+userspace software are stabilised, I plan on submitting it for review.
+
+Signed-off-by: Richard Halkyard <rhalkyard@gmail.com>
+---
+ drivers/acpi/scan.c              | 1 +
+ drivers/iio/accel/mxc4005.c      | 1 -
+ drivers/platform/x86/intel/hid.c | 6 ++++++
+ 3 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
+index 22ae7829a915..dfe688a65855 100644
+--- a/drivers/acpi/scan.c
++++ b/drivers/acpi/scan.c
+@@ -1769,6 +1769,7 @@ static bool acpi_device_enumeration_by_parent(struct acpi_device *device)
+ 		{"CSC3557", },
+ 		{"INT33FE", },
+ 		{"INT3515", },
++		{"MDA6655", },
+ 		/* Non-conforming _HID for Cirrus Logic already released */
+ 		{"CLSA0100", },
+ 		{"CLSA0101", },
+diff --git a/drivers/iio/accel/mxc4005.c b/drivers/iio/accel/mxc4005.c
+index fc54a2a4693c..6bfc0791d9da 100644
+--- a/drivers/iio/accel/mxc4005.c
++++ b/drivers/iio/accel/mxc4005.c
+@@ -571,7 +571,6 @@ static DEFINE_SIMPLE_DEV_PM_OPS(mxc4005_pm_ops, mxc4005_suspend, mxc4005_resume)
+ static const struct acpi_device_id mxc4005_acpi_match[] = {
+ 	{"MXC4005",	0},
+ 	{"MXC6655",	0},
+-	{"MDA6655",	0},
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(acpi, mxc4005_acpi_match);
+diff --git a/drivers/platform/x86/intel/hid.c b/drivers/platform/x86/intel/hid.c
+index 10cd65497cc1..d85663805f2c 100644
+--- a/drivers/platform/x86/intel/hid.c
++++ b/drivers/platform/x86/intel/hid.c
+@@ -159,6 +159,12 @@ static const struct dmi_system_id dmi_vgbs_allow_list[] = {
+ 			DMI_MATCH(DMI_PRODUCT_NAME, "HP Elite Dragonfly G2 Notebook PC"),
+ 		},
+ 	},
++	{
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "CHUWI Innovation And Technology(ShenZhen)co.,Ltd"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "MiniBook X"),
++		},
++	},
+ 	{ }
+ };
+ 
+-- 
+2.47.1
+

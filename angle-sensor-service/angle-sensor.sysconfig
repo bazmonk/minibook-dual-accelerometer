@@ -1,0 +1,19 @@
+# Interval between accelerometer polls (seconds)
+INTERVAL=0.5
+
+# Hinge angle threshold to enter tablet mode (degrees)
+THRESHOLD=45
+
+# Hysteresis to add to hinge angle when leaving tablet mode (degrees)
+HYSTERESIS=20
+
+# Angle threshold for suppressing state changes when off-horizontal (degrees)
+TILT_THRESHOLD=20
+
+# Jerk (rate of change of acceleration) threshold for suppressing state changes
+# while moving erratically (m/s^3)
+JERK_THRESHOLD=6
+
+# Command to run on state change (old and new states passed in as first and 
+# second arguments)
+COMMAND=/usr/local/sbin/chuwi-tablet-control
