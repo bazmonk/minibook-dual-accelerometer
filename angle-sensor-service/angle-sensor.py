@@ -311,19 +311,21 @@ def main():
     hwconfig = parser.add_argument_group(title='Hardware configuration')
     hwconfig.add_argument('--display-accel', default=None, metavar='PATH',
                           help='Path to display accelerometer device (default: '
-                          'autodetect from udev, or "1,0,0;0,1,0;0,0,1" if '
-                          'ACCEL_MOUNT_MATRIX property not defined)')
+                          'autodetect from udev)')
     hwconfig.add_argument('--display-transform', default=None,
                           metavar='MATRIX',
                           help='Transformation matrix to apply to display '
-                          'accelerometer data (default: autodetect from udev)')
+                          'accelerometer data (default: autodetect from '
+                          'udev, or "1,0,0;0,1,0;0,0,1" if '
+                          'ACCEL_MOUNT_MATRIX property not defined)')
     hwconfig.add_argument('--base-accel', default=None, metavar='PATH',
                           help='Path to base accelerometer device (default: '
-                          'autodetect from udev, or "1,0,0;0,1,0;0,0,1" if '
-                          'ACCEL_MOUNT_MATRIX property not defined)')
+                          'autodetect from udev)')
     hwconfig.add_argument('--base-transform', default=None, metavar='MATRIX',
                           help='Transformation matrix to apply to base '
-                          'accelerometer data (default: autodetect from udev)')
+                          'accelerometer data (default: autodetect from '
+                          'udev, or "1,0,0;0,1,0;0,0,1" if '
+                          'ACCEL_MOUNT_MATRIX property not defined)')
     hwconfig.add_argument('--lid-switch', default='/proc/acpi/button/lid/LID0',
                           metavar='PATH',
                           help='Path to lid switch procfs entry (default: '

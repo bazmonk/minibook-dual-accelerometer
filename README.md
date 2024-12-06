@@ -11,7 +11,7 @@ the accelerometer outputs and notify the firmware appropriately. In the Windows
 inside the accelerometer driver (`mxc6655angle.dll`)
 
 This repo is an attempt to implement a similar 'software angle sensor' for
-Linux. Since floating-poing math is frowned-upon inside the Linux kernel, we
+Linux. Since floating-point math is frowned-upon inside the Linux kernel, we
 cannot do this entirely inside a driver as in Windows. Instead, we have separate
 driver and userspace components:
 
@@ -20,7 +20,7 @@ driver and userspace components:
   mode.
 
 - The userspace service (`angle-sensor`) evaluates accelerometer data to
-  determine the hinge angle, and notifies the firmware appropreiately using the
+  determine the hinge angle, and notifies the firmware appropriately using the
   sysfs property exposed by the driver.
 
 When the driver triggers a switch into or out tablet mode, the firmware disables
