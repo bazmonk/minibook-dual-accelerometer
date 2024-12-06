@@ -103,6 +103,9 @@ should get you set up:
     - Install [`angle-sensor-service/chuwi-tablet-control.sh`](angle-sensor-service/chuwi-tablet-control.sh)
       to `/usr/local/sbin/chuwi-tablet-control` with execute permissions.
 
+    - Install [`angle-sensor-service/angle-sensor.sysconfig`](angle-sensor-service/angle-sensor.sysconfig)
+      to `/etc/sysconfig/angle-sensor`.
+
     - Install [`angle-sensor-service/angle-sensor.service`](angle-sensor-service/angle-sensor.service)
       to `/etc/systemd/system/angle-sensor.service`.
 
