@@ -197,14 +197,14 @@ class Tablet:
             self.base_jerk = delta / (now - self.last_poll).total_seconds()
         self.base_vector = new_base_vector
 
-        self.display_angle = np.degrees(np.atan2(self.display_vector[1],
+        self.display_angle = np.degrees(np.arctan2(self.display_vector[1],
                                                  self.display_vector[2]))
 
-        self.base_angle = np.degrees(np.atan2(self.base_vector[1],
+        self.base_angle = np.degrees(np.arctan2(self.base_vector[1],
                                               self.base_vector[2]))
         self.hinge_angle = self.base_angle - self.display_angle
 
-        self.base_tilt = np.degrees(np.atan2(self.base_vector[0],
+        self.base_tilt = np.degrees(np.arctan2(self.base_vector[0],
                                               self.base_vector[2]))
 
         self.last_poll = now
