@@ -5,13 +5,13 @@
 SUBSYSTEM=="iio", KERNEL=="iio*", SUBSYSTEMS=="i2c", \
         DEVPATH=="*/i2c-1/i2c-MDA6655:00/iio:device0", \
         ENV{ACCEL_LOCATION}="display", \
-        ENV{ACCEL_MOUNT_MATRIX}="0,-1,0;1,0,0;0,0,1", \
+        ENV{ACCEL_MOUNT_MATRIX}="1,0,0;0,1,0;0,0,1", \
         RUN+="/bin/sh -c 'echo mxc4005 0x15 > /sys/bus/i2c/devices/i2c-0/new_device'", \
         ENV{SYSTEMD_WANTS}="angle-sensor.service"
 
 SUBSYSTEM=="iio", KERNEL=="iio*", SUBSYSTEMS=="i2c", \
         DEVPATH=="*/i2c-0/0-0015/iio:device1", \
         ENV{ACCEL_LOCATION}="base", \
-        ENV{ACCEL_MOUNT_MATRIX}="0,-1,0;1,0,0;0,0,1", \
+        ENV{ACCEL_MOUNT_MATRIX}="1,0,0;0,1,0;0,0,1", \
         RUN{builtin}+="kmod load chuwi-ltsm-hack", \
         ENV{SYSTEMD_WANTS}="angle-sensor.service"
