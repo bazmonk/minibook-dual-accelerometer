@@ -1,3 +1,7 @@
+N N150 Fix!
+
+This is just a fork to permanently-ish hold my change to this in order to make it work with the N150 Minibook X.
+
 # Dual-accelerometer tablet-mode switching for the Chuwi MiniBook X
 
 ## Introduction
