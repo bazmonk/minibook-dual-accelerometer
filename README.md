@@ -1,4 +1,4 @@
-N N150 Fix!
+# N150 Fix!
 
 This is just a fork to permanently-ish hold my change to this in order to make it work with the N150 Minibook X.
 
